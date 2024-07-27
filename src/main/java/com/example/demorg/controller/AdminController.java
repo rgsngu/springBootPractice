@@ -22,17 +22,19 @@ public class AdminController {
     @Autowired
     private UserService userService;
 
-    @GetMapping
-    public ResponseEntity<?> getAllJournalEntryOfUser(){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Optional<User> user = userService.findByUserName(authentication.getName());
-        if(user.isPresent()){
-            List<Journal> journalList = user.get().getJournalList();
-            if (journalList != null && !journalList.isEmpty())
-                return new ResponseEntity<>(journalList,HttpStatus.OK);
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    @GetMapping("/all-users")
+    public ResponseEntity<?> getAllUsers(){
+        List<User> allUser = userService.getAll();
+        if(allUser != null && !allUser.isEmpty()){
+            return new ResponseEntity<>(allUser,HttpStatus.OK);
         }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @PostMapping("/create-admin-users")
+    public ResponseEntity<?> createUser(@RequestBody User user){
+        userService.saveAdmin(user);
+        return new ResponseEntity<>(user,HttpStatus.OK);
     }
 
 
