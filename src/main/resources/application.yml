@@ -1,3 +1,9 @@
 spring:
   profile:
     active: dev
+
+logging:
+  level:
+    com:
+      example:
+        demorg: DEBUG

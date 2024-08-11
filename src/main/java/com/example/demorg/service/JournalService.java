@@ -3,7 +3,10 @@ package com.example.demorg.service;
 import com.example.demorg.entity.Journal;
 import com.example.demorg.entity.User;
 import com.example.demorg.repository.JournalRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,11 +16,16 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
+@Slf4j
 public class JournalService {
+
     @Autowired
     private JournalRepository journalRepository;
+
     @Autowired
     private UserService userService;
+
+//    private static final Logger logger = LoggerFactory.getLogger(JournalService.class);
 
     @Transactional
     public void saveEntry(Journal journal, String userName) throws Exception {
@@ -31,7 +39,7 @@ public class JournalService {
                 userService.saveUser(user);
             }
         }catch (Exception e){
-            System.out.println(e);
+            log.error("Exception while saving the journal");
             throw new Exception(e);
         }
     }

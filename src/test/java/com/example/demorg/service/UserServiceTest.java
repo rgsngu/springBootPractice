@@ -41,7 +41,6 @@ public class UserServiceTest {
     })
     public void test(int a, int b,int expected){
         assertEquals(expected,a+b);
-
     }
 
 }
